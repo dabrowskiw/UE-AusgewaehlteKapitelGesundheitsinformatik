@@ -365,32 +365,23 @@ for line in open("sequence.fasta", "r"):
 def dostuff(what, x, y):
     print(what(x, y))
 
+def sub(x, y):
+    return x-y
+
 function = sub
 dostuff(function, 10, 5)
-dostuff(add, 10, 5)
 
-# Tatsächliche Anwendung findet das z.B. beim Sortieren:
+# Wird gerne zum Sortieren eingesetzt:
+data = ["bleblebleble", "teeest", "ein Wort"]
 
-tosort = [("apples", 5, 280), ("oranges", 12, 100), ("bananas", 5.9, 1200)]
+print(data)
+data.sort(key=len)
+print(data)
+# Lambda expressions: Anonyme Funktionen
+data.sort(key=lambda x: x.count("e"))
+print(data)
 
-def getprice(fruit):
-    return fruit[1]
-
-def getstock(fruit):
-    return fruit[2]
-
-tosort.sort(key=getprice)
-print(tosort)
-tosort.sort(key=getstock)
-print(tosort)
-
-# Lambda-Expressions erlauben die anonyme Deklaration einfacher Funktionen:
-
-# Sort descending by price
-tosort.sort(key=lambda x: -1*getprice(x)) # Alternativ tosort.sort(key=getprice, reverse=True)
-print(tosort)
-
-# tosort ist hier aber blöd aufgebaut, schöner wäre das mit einer Klasse.
+# Natürlich geht in Python auch objektorientiertes Programmieren
 # Besonderheiten in Python:
 #  * Constructor heißt immer __init__
 #  * Erstes Argument einer Methode ist immer self (in Java wäre das this),
