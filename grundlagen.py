@@ -332,6 +332,22 @@ print(next(nums))
 #  * Schreiben Sie einen Generator, der die Fibonacci-Folge liefert
 # Hinweis: Sie können yield überall in der Generator-Funktion verwenden.
 
+def fib():
+    yield 0
+    yield 1
+    lastvalue = 0
+    currentvalue = 1
+    while True:
+        temp = currentvalue
+        currentvalue += lastvalue
+        lastvalue = temp
+        yield currentvalue
+
+for x in fib():
+    print(x)
+    if x > 15:
+        break
+
 ### --- Dateiverarbeitung --- ###
 # Download einer FASTA-Datei (human immunodeficiency virus, https://www.ncbi.nlm.nih.gov/nuccore/)
 # Datei öffnen (2. Argument ist mode, häufig: r, w, a. b ist binary, z.B. "rb"):
@@ -343,7 +359,7 @@ infile.close()
 infile = open("sequence.fasta", "r")
 lines = infile.read().split("\n")
 infile.close()
-for line in lines:
+for line in lines[:4]:
     print(line)
 
 # Wo könnte hier das Problem sein?
@@ -425,6 +441,7 @@ class Gene(Sequence):
 
 mygene = Gene("Some gene", "ATGGCTGCGTCATGA")
 print(mygene)
+print(mygene.get_translation())
 isinstance(mygene, Gene)
 isinstance(mygene, Sequence)
 isinstance(seq, Gene)
@@ -448,10 +465,13 @@ print(gene.__translation)
 gene._Gene__translation = "Bla"
 print(gene.get_translation())
 
-# AUFGABE: Download von einem fluA-Genom von NCBI, dann:
+# AUFGABE: Download von einem fluA-Genom von NCBI
+# https://www.ncbi.nlm.nih.gov/nuccore/KM368312.1
+# , dann:
 # -- Einfache Read-Simulation --
 # * Skript schreiben, das eine FASTA-Datei mit einer Sequenz einliest und eine neue FASTA-Datei erstellt,
 #   in die Reads (alle 10 Basen ein 300 Basen langer Read) geschrieben werden.
+# * Denken Sie an split und join bei Strings und an slicing (array[von:bis])
 # -- De novo-Assembler entwickeln --
 # * Erstellen einer Klasse Read, die im Constuctur eine Sequenz im
 #   FASTA-Format nimmt und den Namen sowie die Sequenz speichert
@@ -459,5 +479,5 @@ print(gene.get_translation())
 #   (3 Zeilen - eine List Comprehension)
 # * Erweitern der Read-Klasse um eine Methode "__str__(self)", die die Sequenz wieder als FASTA ausgibt
 # * Ausgabe der Sequenzliste als neue FASTA-Datei, abgleich ob identisch mit Eingabedatei
-# * Erweitern der Reference-Klasse um eine Methode "get_kmers(self, kmersize)", die eine Dictionary der
+# * Erweitern der Read-Klasse um eine Methode "get_kmers(self, kmersize)", die eine Dictionary der
 #   k-mere mit der angegebenen Länge zurückgibt (Key: kmer, value: Anzahl)
